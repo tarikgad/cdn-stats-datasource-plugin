@@ -9,15 +9,15 @@ export interface GCGranularityConfig {
 
 const config: Record<GCGranularity, GCGranularityConfig> = {
   [GCGranularity.FiveMinutes]: {
-    label: "5m",
+    label: "5min",
     seconds: 5 * TimeInSeconds.MINUTE,
   },
   [GCGranularity.FifteenMinutes]: {
-    label: "15m",
+    label: "15min",
     seconds: 15 * TimeInSeconds.MINUTE,
   },
   [GCGranularity.OneHour]: {
-    label: "1h",
+    label: "1hr",
     seconds: TimeInSeconds.HOUR,
   },
   [GCGranularity.OneDay]: {
