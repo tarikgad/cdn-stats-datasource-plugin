@@ -1,26 +1,97 @@
+
       flowchart TD
 
-        A_module["module.ts\n(DataSourcePlugin registration)"]
-        B_datasource["src/datasource.ts\nclass DataSource"]
-        B_getAll["getAllGCCdnResources()\nGET /resources"]
-        B_doRequest["doRequest(...)\nPOST /statistics/aggregate/stats"]
-        B_test["testDatasource()\nGET /users/me"]
+        %% Entry and plugin files
+        module[module.ts]
+        pluginjson[plugin.json]
 
-        C_GCConfig["src/components/GCConfigEditor.tsx\n(GCConfigEditor)"]
-        C_GCQuery["src/components/GCQueryEditor.tsx\n(GCQueryEditor)"]
+        %% Main logic
+        datasource[datasource.ts]
+        defaults[defaults.ts]
+        types[types.ts]
+        utils[utils.ts]
+        token[token.ts]
+        metric[metric.ts]
+        granularity[granularity.ts]
+        grouping[grouping.ts]
+        unit[unit.ts]
+        regions[regions.ts]
+        countries[countries.ts]
+        times[times.ts]
 
-        U_utils["src/utils.ts\n(takeNumbers, takeStrings, createLabelInfo, getValueVariable)"]
-        U_types["src/types.ts\n(GCQuery, GCStatsRequestData, GCResponseStats, GCCdnResource)"]
+        %% Components
+        GCConfigEditor[components/GCConfigEditor.tsx]
+        GCInput[components/GCInput.tsx]
+        GCQueryEditor[components/GCQueryEditor.tsx]
+        GCSelectGranularity[components/GCSelectGranularity.tsx]
+        GCSelectGrouping[components/GCSelectGrouping.tsx]
+        GCSelectMetric[components/GCSelectMetric.tsx]
+        GCVariableQueryEditor[components/GCVariableQueryEditor.tsx]
 
-        P_pluginjson["src/plugin.json\n(/cdn/statistics/aggregate/stats, /cdn/resources, /iam/users/me)"]
+        %% Bandwidth
+        bandwidth_desc[bandwidth/bandwidth-description.ts]
+        bandwidth_spec[bandwidth/bandwidth.spec.ts]
+        bandwidth[bandwidth/bandwidth.ts]
+        bandwidth_index[bandwidth/index.ts]
 
-        A_module --> B_datasource
-        C_GCConfig --> B_datasource
-        C_GCQuery --> B_datasource
+        %% Byte converter
+        byteconv_spec[byte-converter/byte-converter.spec.ts]
+        byteconv[byte-converter/byte-converter.ts]
+        byteconv_index[byte-converter/index.ts]
+        byteconv_unitdesc[byte-converter/unit-description.ts]
 
-        B_datasource --> U_utils
-        B_datasource --> U_types
+        %% Images
+        img_large_black[img/logo-large-black.png]
+        img_large_svg[img/logo-large.svg]
+        img_small_svg[img/logo-small.svg]
 
-        B_getAll -.->|GET /resources| P_pluginjson
-        B_doRequest -.->|POST /statistics/aggregate/stats| P_pluginjson
-        B_test -.->|GET /users/me| P_pluginjson
+        %% Relationships
+        module --> datasource
+        module --> pluginjson
+        module --> GCConfigEditor
+        module --> GCQueryEditor
+        module --> GCVariableQueryEditor
+
+        datasource --> types
+        datasource --> defaults
+        datasource --> utils
+        datasource --> token
+        datasource --> metric
+        datasource --> granularity
+        datasource --> grouping
+        datasource --> unit
+        datasource --> regions
+        datasource --> countries
+        datasource --> times
+        datasource --> bandwidth
+        datasource --> byteconv
+
+        GCConfigEditor --> datasource
+        GCQueryEditor --> datasource
+        GCVariableQueryEditor --> datasource
+        GCQueryEditor --> GCSelectMetric
+        GCQueryEditor --> GCSelectGranularity
+        GCQueryEditor --> GCSelectGrouping
+        GCQueryEditor --> GCInput
+
+        bandwidth --> bandwidth_desc
+        bandwidth --> bandwidth_spec
+        bandwidth --> bandwidth_index
+
+        byteconv --> byteconv_spec
+        byteconv --> byteconv_index
+        byteconv --> byteconv_unitdesc
+
+        %% API call sites
+        datasource -.->|GET /resources| pluginjson
+        datasource -.->|POST /statistics/aggregate/stats| pluginjson
+        datasource -.->|GET /users/me| pluginjson
+
+        %% Images (used in UI)
+        GCConfigEditor --> img_large_black
+        GCConfigEditor --> img_large_svg
+        GCConfigEditor --> img_small_svg
+
+        %% Notes
+        classDef apiCall fill:#ffe6e6,stroke:#ff4d4d;
+        class datasource apiCall

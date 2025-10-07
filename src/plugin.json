@@ -37,7 +37,7 @@
   "routes": [
     {
       "path": "statistics/aggregate/stats",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/cdn/statistics/aggregate/stats",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/waap/v1/statistics/series",
       "headers": [
         {
           "name": "Authorization",
