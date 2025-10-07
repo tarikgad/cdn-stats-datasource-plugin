@@ -1,0 +1,26 @@
+      flowchart TD
+
+        A_module["module.ts\n(DataSourcePlugin registration)"]
+        B_datasource["src/datasource.ts\nclass DataSource"]
+        B_getAll["getAllGCCdnResources()\nGET /resources"]
+        B_doRequest["doRequest(...)\nPOST /statistics/aggregate/stats"]
+        B_test["testDatasource()\nGET /users/me"]
+
+        C_GCConfig["src/components/GCConfigEditor.tsx\n(GCConfigEditor)"]
+        C_GCQuery["src/components/GCQueryEditor.tsx\n(GCQueryEditor)"]
+
+        U_utils["src/utils.ts\n(takeNumbers, takeStrings, createLabelInfo, getValueVariable)"]
+        U_types["src/types.ts\n(GCQuery, GCStatsRequestData, GCResponseStats, GCCdnResource)"]
+
+        P_pluginjson["src/plugin.json\n(/cdn/statistics/aggregate/stats, /cdn/resources, /iam/users/me)"]
+
+        A_module --> B_datasource
+        C_GCConfig --> B_datasource
+        C_GCQuery --> B_datasource
+
+        B_datasource --> U_utils
+        B_datasource --> U_types
+
+        B_getAll -.->|GET /resources| P_pluginjson
+        B_doRequest -.->|POST /statistics/aggregate/stats| P_pluginjson
+        B_test -.->|GET /users/me| P_pluginjson
